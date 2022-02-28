@@ -3,6 +3,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User.model');
 const { isAuthenticated } = require('../middleware/jwt.middleware');
+const Category = require('../models/Category');
 
 const router = express.Router();
 const saltRounds = 10;
@@ -60,6 +61,7 @@ router.post('/signup', (req, res, next) => {
 
       // Send a json response containing the user object
       res.status(201).json({ user: user });
+      return;
     })
     .catch(err => {
       console.log(err);
@@ -121,5 +123,17 @@ router.get('/verify', isAuthenticated, (req, res, next) => {
   // previously set as the token payload
   res.status(200).json(req.payload);
 });
+
+//CREATE CATEGORY
+exports.create = (req, res) => {
+  const category = new Category(req.body);
+  category.save((err, data) => {
+    if (err) {
+      return res.status(400).json({ error: err.message });
+    }
+    res.json({ data });
+  });
+};
+router.post('/category/create/:userId', isAuthenticated, create);
 
 module.exports = router;
