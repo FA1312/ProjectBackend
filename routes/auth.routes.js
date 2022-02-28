@@ -124,16 +124,4 @@ router.get('/verify', isAuthenticated, (req, res, next) => {
   res.status(200).json(req.payload);
 });
 
-//CREATE CATEGORY
-exports.create = (req, res) => {
-  const category = new Category(req.body);
-  category.save((err, data) => {
-    if (err) {
-      return res.status(400).json({ error: err.message });
-    }
-    res.json({ data });
-  });
-};
-router.post('/category/create/:userId', isAuthenticated, create);
-
 module.exports = router;
