@@ -42,11 +42,10 @@ Login - As a user I want to be able to log in as an Admin on the webpage
 
 Logout - As a user I want to be able to log out as an Admin from the webpage
 
-Product page - As a user I want to be able to see the product 
-
-Diary profile - As a user I want to be able to see my diary and edit it
+Product page - As a user I want to be able to see the product
 
 About - As a user I want to be able to see the details of the company - Email to contact
+
 
 ### ADMIN STORY
 
