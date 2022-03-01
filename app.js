@@ -6,6 +6,7 @@ const { isAuthenticated } = require('./middleware/jwt.middleware');
 const allRoutes = require('./routes');
 const authRouter = require('./routes/auth.routes');
 const protectedRoute = require('./routes/protected.routes');
+const productsRoute = require('./routes/products.routes');
 
 const app = express();
 
@@ -14,7 +15,7 @@ require('./config')(app);
 app.use('/api', allRoutes);
 app.use('/api/protected', isAuthenticated, protectedRoute);
 app.use('/auth', authRouter);
-
+app.use('/api/products', productsRoute);
 require('./error-handling')(app);
 
 module.exports = app;
