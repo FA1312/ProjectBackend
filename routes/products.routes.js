@@ -2,6 +2,7 @@ const router = require('express').Router();
 const Product = require('../models/Product');
 const { isAuthenticated } = require('../middleware/jwt.middleware');
 
+//Read
 router.get('/', async (req, res, next) => {
   const products = await Product.find({});
   if (!products) {
@@ -10,12 +11,14 @@ router.get('/', async (req, res, next) => {
   res.status(200).json(products);
 });
 
-router.post('/', async (req, res) => {
+//Create
+router.post('/', isAuthenticated, async (req, res) => {
   const { name, description, price, category, photo, shipping } = req.body;
   const product = await Product.create({ name, description, price, category, photo, shipping });
   res.status(201).json(product);
 });
 
+//Detail Update
 router.get('/:productId', async (req, res) => {
   const { productId } = req.params;
   const product = await Product.findById(productId);
@@ -25,7 +28,7 @@ router.get('/:productId', async (req, res) => {
   res.status(200).json(product);
 });
 
-router.put('/edit/:productId', isAuthenticated, async (req, res) => {
+router.put('/:productId/edit', isAuthenticated, async (req, res) => {
   const { productId } = req.params;
   const { name, description, price, category, photo, shipping } = req.body;
   const product = await Product.findByIdAndUpdate(productId, { name, description, price, category, photo, shipping }, { new: true });
@@ -35,7 +38,8 @@ router.put('/edit/:productId', isAuthenticated, async (req, res) => {
   res.status(201).json(product);
 });
 
-router.delete('/:productId', isAuthenticated, async (req, res) => {
+//Delete
+router.delete('/:productId/delete', isAuthenticated, async (req, res) => {
   const { productId } = req.params;
   const product = await Product.findByIdAndDelete(productId);
   if (!product) {
